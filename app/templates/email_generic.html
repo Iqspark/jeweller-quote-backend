@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+  <style>
+    /* ── Reset ── */
+    body { margin:0; padding:0; background:#f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; color:#333; }
+    table { border-spacing:0; border-collapse:collapse; }
+    img   { border:0; }
+    a     { color:#0078d4; text-decoration:none; }
+
+    /* ── Wrapper ── */
+    .wrapper     { width:100%; background:#f4f6f9; padding:40px 0; }
+    .container   { max-width:620px; margin:0 auto; background:#ffffff;
+                   border-radius:8px; overflow:hidden;
+                   box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+
+    /* ── Header ── */
+    .header      { background:#0078d4; padding:32px 40px; text-align:center; }
+    .header h1   { margin:0; color:#ffffff; font-size:22px; font-weight:600; letter-spacing:0.3px; }
+    .header p    { margin:6px 0 0; color:#cce4f7; font-size:13px; }
+
+    /* ── Body ── */
+    .body        { padding:32px 40px; }
+    .intro       { font-size:15px; color:#555; margin:0 0 24px; line-height:1.6; }
+
+    /* ── Table ── */
+    .data-table  { width:100%; border:1px solid #e8ecf0; border-radius:6px; overflow:hidden; margin-bottom:28px; }
+    .data-table th {
+      background:#f0f5fa; padding:10px 16px; text-align:left;
+      font-size:12px; font-weight:600; color:#0078d4;
+      text-transform:uppercase; letter-spacing:0.5px;
+      border-bottom:1px solid #e8ecf0;
+    }
+    .data-table td {
+      padding:10px 16px; font-size:14px; color:#444;
+      border-bottom:1px solid #f0f0f0; word-break:break-word;
+    }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tr:nth-child(even) td { background:#fafbfd; }
+    .key-cell    { font-weight:500; color:#333; width:40%; white-space:nowrap; }
+
+    /* ── Meta box ── */
+    .meta-box    { background:#f0f5fa; border-left:4px solid #0078d4;
+                   border-radius:4px; padding:14px 16px; margin-bottom:28px; }
+    .meta-box p  { margin:0; font-size:12px; color:#666; line-height:1.8; }
+    .meta-box strong { color:#333; }
+
+    /* ── Footer ── */
+    .footer      { background:#f4f6f9; padding:20px 40px; text-align:center;
+                   border-top:1px solid #e8ecf0; }
+    .footer p    { margin:0; font-size:12px; color:#999; line-height:1.8; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="header">
+        <h1>✅ {{ title }} — Received</h1>
+        <p>Your submission has been saved successfully</p>
+      </div>
+
+      <!-- Body -->
+      <div class="body">
+        <p class="intro">
+          Hi there, your data has been received and stored. Below is a summary of everything we captured.
+        </p>
+
+        <!-- Meta info -->
+        <div class="meta-box">
+          <p><strong>Document ID:</strong> {{ doc_id }}</p>
+          <p><strong>Received at:</strong> {{ received_at }}</p>
+        </div>
+
+        <!-- Data table -->
+        {% if rows %}
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+            <tr>
+              <td class="key-cell">{{ row.key }}</td>
+              <td>{{ row.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p style="color:#999; font-size:14px;">No data fields found in submission.</p>
+        {% endif %}
+
+        <p style="font-size:14px; color:#555;">
+          If you have any questions, please reply to this email or contact our support team.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>This is an automated message — please do not reply directly.</p>
+        <p>© {{ received_at[:4] if received_at else '2025' }} Your Company · Powered by Azure</p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
