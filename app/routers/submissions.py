@@ -47,11 +47,15 @@ async def submit_json(payload: dict, background_tasks: BackgroundTasks):
 @router.get("/list", response_model=SubmissionsListResponse)
 async def list_submissions(limit: int = 20):
     """Returns the last N saved documents."""
-    print("return docs")
-    docs = await db.collection.find(
-        {}, {"_id": 0}
-    ).sort("_meta.received_at", -1).limit(limit).to_list(length=limit)
-    return {"count": len(docs), "results": docs}
+    logger.info(f"Retrieving last N saved documents: {limit}")
+    try:
+        docs = await db.collection.find(
+            {}, {"_id": 0}
+        ).sort("_meta.received_at", -1).limit(limit).to_list(length=limit)
+        return {"count": len(docs), "results": docs}
+    except Exception as e:
+        logger.error(f"List submissions failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))  # ← returns actual error message
 
 
 async def _send_email_task(payload: dict, doc_id: str):
