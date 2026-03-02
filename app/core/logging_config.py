@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 # ── Config ────────────────────────────────────────────────────────────────────
-LOG_LEVEL   = os.getenv("LOG_LEVEL", "INFO").upper()
+LOG_LEVEL   = os.getenv("LOG_LEVEL", "DEBUG").upper()
 LOG_DIR     = os.getenv("LOG_DIR", "logs")
 LOG_FILE    = os.path.join(LOG_DIR, "app.log")
 ERROR_FILE  = os.path.join(LOG_DIR, "error.log")

@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.core.logging_config import setup_logging
-from app.routers import health, submissions
+from app.routers import health, submissions, auth
 import logging
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,7 +13,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="JSON → MongoDB → Email API",
+    title="JSON → MongoDB/CosmosDB → Email API",
     description="Accepts any JSON, saves to MongoDB/CosmosDB, renders HTML email and sends via ACS or SMTP.",
     version="2.0.0",
     lifespan=lifespan
@@ -22,4 +21,4 @@ app = FastAPI(
 
 app.include_router(health.router)
 app.include_router(submissions.router)
-
+app.include_router(auth.router)

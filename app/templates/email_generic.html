@@ -1,115 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{{ title }}</title>
+  <title>Jeweller Insurance Quote — {{ data.firm_name }}</title>
   <style>
-    /* ── Reset ── */
-    body { margin:0; padding:0; background:#f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; color:#333; }
-    table { border-spacing:0; border-collapse:collapse; }
-    img   { border:0; }
-    a     { color:#0078d4; text-decoration:none; }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap');
 
-    /* ── Wrapper ── */
-    .wrapper     { width:100%; background:#f4f6f9; padding:40px 0; }
-    .container   { max-width:620px; margin:0 auto; background:#ffffff;
-                   border-radius:8px; overflow:hidden;
-                   box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: #f0ede8;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #2c2c2c;
+    }
+
+    .wrapper { max-width: 680px; margin: 0 auto; padding: 32px 16px; }
 
     /* ── Header ── */
-    .header      { background:#0078d4; padding:32px 40px; text-align:center; }
-    .header h1   { margin:0; color:#ffffff; font-size:22px; font-weight:600; letter-spacing:0.3px; }
-    .header p    { margin:6px 0 0; color:#cce4f7; font-size:13px; }
+    .header {
+      background: #1a1a2e;
+      border-radius: 12px 12px 0 0;
+      padding: 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(212,175,55,0.12);
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 60px;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: rgba(212,175,55,0.07);
+    }
+    .header-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #d4af37;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.3px;
+    }
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: rgba(212,175,55,0.15);
+      border: 1px solid rgba(212,175,55,0.3);
+      color: #d4af37;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
 
     /* ── Body ── */
-    .body        { padding:32px 40px; }
-    .intro       { font-size:15px; color:#555; margin:0 0 24px; line-height:1.6; }
+    .body {
+      background: #ffffff;
+      padding: 0 48px 40px;
+    }
+
+    /* ── Section ── */
+    .section { padding: 32px 0; border-bottom: 1px solid #f0ede8; }
+    .section:last-child { border-bottom: none; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a2e;
+      letter-spacing: 0.3px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #d4af37, transparent);
+    }
+
+    /* ── Grid ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    .info-card {
+      background: #faf9f7;
+      border: 1px solid #ede9e3;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .info-card .label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9a8c7a;
+      margin-bottom: 5px;
+    }
+    .info-card .value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+    .info-card .value.gold { color: #b8963e; }
+    .info-card .value.small { font-size: 13px; font-weight: 400; }
 
     /* ── Table ── */
-    .data-table  { width:100%; border:1px solid #e8ecf0; border-radius:6px; overflow:hidden; margin-bottom:28px; }
-    .data-table th {
-      background:#f0f5fa; padding:10px 16px; text-align:left;
-      font-size:12px; font-weight:600; color:#0078d4;
-      text-transform:uppercase; letter-spacing:0.5px;
-      border-bottom:1px solid #e8ecf0;
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
     }
+    .data-table thead tr {
+      background: #1a1a2e;
+    }
+    .data-table thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #d4af37;
+    }
+    .data-table tbody tr:nth-child(even) { background: #faf9f7; }
+    .data-table tbody tr:hover { background: #f5f2ec; }
     .data-table td {
-      padding:10px 16px; font-size:14px; color:#444;
-      border-bottom:1px solid #f0f0f0; word-break:break-word;
+      padding: 10px 14px;
+      color: #3a3a3a;
+      border-bottom: 1px solid #ede9e3;
     }
-    .data-table tr:last-child td { border-bottom:none; }
-    .data-table tr:nth-child(even) td { background:#fafbfd; }
-    .key-cell    { font-weight:500; color:#333; width:40%; white-space:nowrap; }
+    .data-table td.amount {
+      font-weight: 600;
+      color: #1a1a2e;
+      text-align: right;
+    }
+    .data-table td.negative { color: #c0392b; }
+    .data-table td.positive { color: #27ae60; }
+    .data-table tfoot td {
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 14px;
+      background: #1a1a2e;
+      color: #d4af37;
+      border: none;
+    }
 
-    /* ── Meta box ── */
-    .meta-box    { background:#f0f5fa; border-left:4px solid #0078d4;
-                   border-radius:4px; padding:14px 16px; margin-bottom:28px; }
-    .meta-box p  { margin:0; font-size:12px; color:#666; line-height:1.8; }
-    .meta-box strong { color:#333; }
+    /* ── Premium box ── */
+    .premium-box {
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4e 100%);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .premium-box .left .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(212,175,55,0.7);
+      margin-bottom: 6px;
+    }
+    .premium-box .left .amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .premium-box .left .currency {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 3px;
+    }
+    .premium-box .right {
+      text-align: right;
+    }
+    .premium-box .right .dates {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      line-height: 2;
+    }
+    .premium-box .right .dates strong {
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Tag pill ── */
+    .pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .pill-blue { background: #e8f0fe; color: #1a56db; }
+    .pill-green { background: #e3fcef; color: #0e9f6e; }
+    .pill-red { background: #fde8e8; color: #e02424; }
 
     /* ── Footer ── */
-    .footer      { background:#f4f6f9; padding:20px 40px; text-align:center;
-                   border-top:1px solid #e8ecf0; }
-    .footer p    { margin:0; font-size:12px; color:#999; line-height:1.8; }
+    .footer {
+      background: #1a1a2e;
+      border-radius: 0 0 12px 12px;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer p { font-size: 11px; color: rgba(255,255,255,0.35); }
+    .footer .doc-id {
+      font-size: 11px;
+      color: rgba(212,175,55,0.5);
+      font-family: monospace;
+    }
+
+    /* ── Divider ── */
+    .gold-divider {
+      height: 3px;
+      background: linear-gradient(to right, #d4af37, #f0d060, #d4af37);
+    }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="container">
+<div class="wrapper">
 
-      <!-- Header -->
-      <div class="header">
-        <h1>✅ {{ title }} — Received</h1>
-        <p>Your submission has been saved successfully</p>
-      </div>
-
-      <!-- Body -->
-      <div class="body">
-        <p class="intro">
-          Hi there, your data has been received and stored. Below is a summary of everything we captured.
-        </p>
-
-        <!-- Meta info -->
-        <div class="meta-box">
-          <p><strong>Document ID:</strong> {{ doc_id }}</p>
-          <p><strong>Received at:</strong> {{ received_at }}</p>
-        </div>
-
-        <!-- Data table -->
-        {% if rows %}
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in rows %}
-            <tr>
-              <td class="key-cell">{{ row.key }}</td>
-              <td>{{ row.value }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p style="color:#999; font-size:14px;">No data fields found in submission.</p>
-        {% endif %}
-
-        <p style="font-size:14px; color:#555;">
-          If you have any questions, please reply to this email or contact our support team.
-        </p>
-      </div>
-
-      <!-- Footer -->
-      <div class="footer">
-        <p>This is an automated message — please do not reply directly.</p>
-        <p>© {{ received_at[:4] if received_at else '2025' }} Your Company · Powered by Azure</p>
-      </div>
-
+  <!-- Header -->
+  <div class="header">
+    <div class="header-tag">Jewellers Block Insurance</div>
+    <h1>{{ data.firm_name }}</h1>
+    <div class="header-sub">Insurance Quote Summary &nbsp;·&nbsp; Prepared {{ data.insurance_start_date }}</div>
+    <div class="badge-row">
+      <span class="badge">{{ data.business_type }}</span>
+      <span class="badge">{{ data.country }}</span>
+      <span class="badge">{{ data.currency }}</span>
+      {% if data.dropdown_clause == "Yes" %}
+      <span class="badge">Dropdown Clause</span>
+      {% endif %}
     </div>
   </div>
+  <div class="gold-divider"></div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- Policy Details -->
+    <div class="section">
+      <div class="section-title">Policy Details</div>
+      <div class="grid-3">
+        <div class="info-card">
+          <div class="label">Coverage Limit</div>
+          <div class="value gold">{{ data.currency }} {{ "{:,.0f}".format(data.cadLimit) }}</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Start Date</div>
+          <div class="value small">{{ data.insurance_start_date }}</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Expiry Date</div>
+          <div class="value small">{{ data.insurance_expiry_date }}</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Exchange Rate</div>
+          <div class="value">{{ data.exRate }}</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Total Discounts</div>
+          <div class="value">{{ data.totalDiscounts }}%</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Peak Season Rate</div>
+          <div class="value">{{ data.peak_season_rate }}%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adjustments -->
+    {% if data.adjustments %}
+    <div class="section">
+      <div class="section-title">Adjustments</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th style="text-align:right">Load / Credit %</th>
+            <th style="text-align:right">Premium ({{ data.currency }})</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for adj in data.adjustments %}
+          <tr>
+            <td>{{ adj.description }}</td>
+            <td class="amount {% if adj.loadCredit < 0 %}negative{% elif adj.loadCredit > 0 %}positive{% endif %}">
+              {{ "{:+.2f}".format(adj.loadCredit) }}%
+            </td>
+            <td class="amount {% if adj.premium < 0 %}negative{% elif adj.premium > 0 %}positive{% endif %}">
+              {{ "{:,.2f}".format(adj.premium) }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Non-Standard Coverage -->
+    {% if data.nonStandardCoverage %}
+    <div class="section">
+      <div class="section-title">Non-Standard Coverage</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th style="text-align:right">Load / Credit %</th>
+            <th style="text-align:right">Premium ({{ data.currency }})</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cov in data.nonStandardCoverage %}
+          <tr>
+            <td>{{ cov.type }}</td>
+            <td class="amount {% if cov.loadCredit < 0 %}negative{% elif cov.loadCredit > 0 %}positive{% endif %}">
+              {{ "{:+.2f}".format(cov.loadCredit) }}%
+            </td>
+            <td class="amount {% if cov.premium < 0 %}negative{% elif cov.premium > 0 %}positive{% endif %}">
+              {{ "{:,.2f}".format(cov.premium) }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Deductibles -->
+    {% if data.deductibles %}
+    <div class="section">
+      <div class="section-title">Deductibles</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th style="text-align:right">Amount ({{ data.currency }})</th>
+            <th style="text-align:right">Load / Credit %</th>
+            <th style="text-align:right">Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ded in data.deductibles %}
+          <tr>
+            <td>{{ ded.type }}</td>
+            <td class="amount">{{ "{:,.0f}".format(ded.amount) }}</td>
+            <td class="amount">{{ "{:+.2f}".format(ded.loadCredit) }}%</td>
+            <td class="amount">{{ "{:,.2f}".format(ded.premium) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Travel -->
+    {% if data.travel %}
+    <div class="section">
+      <div class="section-title">Travel Coverage</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Travel Type</th>
+            <th style="text-align:right">Limit ({{ data.currency }})</th>
+            <th style="text-align:right">Days</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in data.travel %}
+          <tr>
+            <td><span class="pill pill-blue">Type {{ t.travel_type }}</span></td>
+            <td class="amount">{{ "{:,.0f}".format(t.limit) }}</td>
+            <td class="amount">{{ t.days }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Other Layers -->
+    {% set active_layers = data.other_layers | selectattr("limit", "gt", 0) | list %}
+    {% if active_layers %}
+    <div class="section">
+      <div class="section-title">Other Layers</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th style="text-align:right">Limit ({{ data.currency }})</th>
+            <th style="text-align:right">Excess Of</th>
+            <th style="text-align:right">Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for layer in active_layers %}
+          <tr>
+            <td>{{ layer.label }}</td>
+            <td class="amount">{{ "{:,.0f}".format(layer.limit) }}</td>
+            <td class="amount">{{ "{:,.0f}".format(layer.excessOf) }}</td>
+            <td class="amount">{{ "{:,.2f}".format(layer.premium) if layer.premium is defined else "—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Sendings -->
+    {% set active_sendings = data.sendings_layers | selectattr("exposure", "gt", 0) | list %}
+    {% if active_sendings %}
+    <div class="section">
+      <div class="section-title">Sendings</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th style="text-align:right">Exposure ({{ data.currency }})</th>
+            <th style="text-align:right">Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in active_sendings %}
+          <tr>
+            <td>{{ s.label }}</td>
+            <td class="amount">{{ "{:,.0f}".format(s.exposure) }}</td>
+            <td class="amount">{{ "{:,.2f}".format(s.premium) if s.premium is defined else "—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Exhibition -->
+    {% set active_exhibitions = data.exhibition_layers | selectattr("limit", "gt", 0) | list %}
+    {% if active_exhibitions %}
+    <div class="section">
+      <div class="section-title">Exhibition</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th style="text-align:right">Limit ({{ data.currency }})</th>
+            <th style="text-align:right">No. of Shows</th>
+            <th style="text-align:right">Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ex in active_exhibitions %}
+          <tr>
+            <td>{{ ex.label }}</td>
+            <td class="amount">{{ "{:,.0f}".format(ex.limit) }}</td>
+            <td class="amount">{{ ex.no_of_shows }}</td>
+            <td class="amount">{{ "{:,.2f}".format(ex.premium) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Rates -->
+    {% if data.rates %}
+    <div class="section">
+      <div class="section-title">Premium Rates</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th style="text-align:right">Rate (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in data.rates %}
+          <tr>
+            <td>{{ r.label }}</td>
+            <td class="amount">{{ r.rate }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Premium Summary Box -->
+    <div class="premium-box">
+      <div class="left">
+        <div class="label">Total Estimated Premium</div>
+        <div class="amount">
+          {% set total = namespace(val=0) %}
+          {% for adj in data.adjustments %}
+            {% set total.val = total.val + adj.premium %}
+          {% endfor %}
+          {% for cov in data.nonStandardCoverage %}
+            {% set total.val = total.val + cov.premium %}
+          {% endfor %}
+          {% for layer in data.other_layers %}
+            {% if layer.premium is defined %}
+              {% set total.val = total.val + layer.premium %}
+            {% endif %}
+          {% endfor %}
+          {% for s in data.sendings_layers %}
+            {% if s.premium is defined %}
+              {% set total.val = total.val + s.premium %}
+            {% endif %}
+          {% endfor %}
+          {% for ex in data.exhibition_layers %}
+            {% if ex.premium is defined %}
+              {% set total.val = total.val + ex.premium %}
+            {% endif %}
+          {% endfor %}
+          {{ data.currency }} {{ "{:,.2f}".format(total.val | abs) }}
+        </div>
+        <div class="currency">All amounts in {{ data.currency }} · Rate {{ data.exRate }}</div>
+      </div>
+      <div class="right">
+        <div class="dates">
+          <strong>Effective</strong> {{ data.insurance_start_date }}<br/>
+          <strong>Expires</strong> {{ data.insurance_expiry_date }}<br/>
+          <strong>Business</strong> {{ data.business_type }}
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>This is an automated quote summary. Please review all terms carefully.</p>
+    <span class="doc-id">REF: {{ doc_id }}</span>
+  </div>
+
+</div>
 </body>
 </html>

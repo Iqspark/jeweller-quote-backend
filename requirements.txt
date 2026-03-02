@@ -7,13 +7,18 @@ motor==3.4.0
 pymongo==4.7.2
 
 # ── HTML templating ──────────────────────────────────────────
-jinja2==3.1.4
+jinja2
 
 # ── Email (local SMTP) ───────────────────────────────────────
-aiosmtplib==3.0.1
+aiosmtplib
 
 # ── Config ───────────────────────────────────────────────────
-python-dotenv==1.0.1
+python-dotenv
+
+# ── Auth ─────────────────────────────────────────────────────
+python-jose[cryptography]    # JWT encoding/decoding
+passlib              # password hashing
+bcrypt
 
 # ── Azure (only needed for production deployment) ────────────
 # azure-communication-email==1.0.0
